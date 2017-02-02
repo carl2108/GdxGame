@@ -7,18 +7,21 @@ import com.badlogic.gdx.graphics.Texture;
  */
 
 public class Tile {
-
-    public int number;
-    public Texture img;
+    private int number;
+    private Texture texture;
+    private Sprite sprite;
 
     public Tile(int num, String imgFile) {
         this.number = num;
-        this.img = new Texture(imgFile);
+        this.texture = new Texture(imgFile);
+        sprite = new Sprite(texture);
     }
 
-
-    private Texture getImg(char l){
-        return new Texture("img//letters//");
+    public int getNumber() {
+        return number;
     }
 
+    public Sprite getSprite() {
+        return sprite;
+    }
 }

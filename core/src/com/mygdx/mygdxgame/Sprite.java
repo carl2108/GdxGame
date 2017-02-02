@@ -23,7 +23,7 @@ public class Sprite extends com.badlogic.gdx.graphics.g2d.Sprite{
     }
 
     public float getY () {
-        return Gdx.graphics.getHeight() - super.getY();
+        return invert(super.getY());
     }
 
     public void setPosition (float x, float y) {
