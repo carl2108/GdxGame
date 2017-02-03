@@ -31,7 +31,6 @@ public class Board {
                 s.getTile().getSprite().setPosition(s.getPx(), s.getPy()+squareWidth);          /* fix this */
             }
         }
-
     }
 
     public int getSquareHeight() {
@@ -61,8 +60,8 @@ public class Board {
         Log("Computing legal moves");
         Square anchor = null;
         Square currSquare;
-        for(int i=0; i<4; i++) {
-            for(int j=0; j<4; j++) {
+        for(int j=0; j<4; j++) {
+            for(int i=0; i<4; i++) {
                 currSquare = board[i][j];
                 currSquare.setHasTile(true);
                 if(currSquare.getTile().getNumber() == 16) {
@@ -86,7 +85,7 @@ public class Board {
         for(int i=anchor.getY()+1; i<4; i++)
             board[anchor.getX()][i].setCanMoveUp(true);
 
-        for(int i=anchor.getX()-1; i>=0; i--)
+        for(int i=anchor.getY()-1; i>=0; i--)
             board[anchor.getX()][i].setCanMoveDown(true);
 
     }

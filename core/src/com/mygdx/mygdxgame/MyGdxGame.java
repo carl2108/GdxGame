@@ -110,8 +110,6 @@ public class MyGdxGame extends ApplicationAdapter implements InputProcessor {
 		touchDownY = -999;
 		activeSquare = null;
 
-		//board.computeLegalMoves();
-
 		return false;
 	}
 
@@ -170,6 +168,7 @@ public class MyGdxGame extends ApplicationAdapter implements InputProcessor {
 
 	public void processMove(Square activeSquare, char move) {
 		Stack<Square> tilesToMove  = new Stack<Square>();
+		Tile anchorTile;
 		int i;
 		switch(move) {
 			case 'l':
@@ -183,7 +182,7 @@ public class MyGdxGame extends ApplicationAdapter implements InputProcessor {
 					tilesToMove.push(board.getBoard()[i][activeSquare.getY()]);
 					i--;
 				}
-				board.getBoard()[activeSquare.getX()][activeSquare.getY()].setTile(board.getBoard()[i][activeSquare.getY()].getTile());
+				anchorTile = board.getBoard()[i][activeSquare.getY()].getTile();
 				break;
 			case 'r':
 				if(!activeSquare.isCanMoveRight()) {
@@ -196,7 +195,7 @@ public class MyGdxGame extends ApplicationAdapter implements InputProcessor {
 					tilesToMove.push(board.getBoard()[i][activeSquare.getY()]);
 					i++;
 				}
-				board.getBoard()[activeSquare.getX()][activeSquare.getY()].setTile(board.getBoard()[i][activeSquare.getY()].getTile());
+				anchorTile = board.getBoard()[i][activeSquare.getY()].getTile();
 				break;
 			case 'd':
 				if(!activeSquare.isCanMoveDown()) {
@@ -209,7 +208,7 @@ public class MyGdxGame extends ApplicationAdapter implements InputProcessor {
 					tilesToMove.push(board.getBoard()[activeSquare.getX()][i]);
 					i++;
 				}
-				board.getBoard()[activeSquare.getX()][activeSquare.getY()].setTile(board.getBoard()[i][activeSquare.getY()].getTile());
+				anchorTile = board.getBoard()[activeSquare.getX()][i].getTile();
 				break;
 			case 'u':
 				if(!activeSquare.isCanMoveUp()) {
@@ -222,22 +221,22 @@ public class MyGdxGame extends ApplicationAdapter implements InputProcessor {
 					tilesToMove.push(board.getBoard()[activeSquare.getX()][i]);
 					i--;
 				}
-				board.getBoard()[activeSquare.getX()][activeSquare.getY()].setTile(board.getBoard()[i][activeSquare.getY()].getTile());
+				anchorTile = board.getBoard()[activeSquare.getX()][i].getTile();
 				break;
 			default:
 				Log("No move to process");
 				return;
 		}
 		moveSquares(tilesToMove, move);
+		board.getBoard()[activeSquare.getX()][activeSquare.getY()].setTile(anchorTile);
 		Gdx.graphics.requestRendering();
 
 		board.computeLegalMoves();
 	}
 
 	public void moveSquares(Stack<Square> tilesToMove, char move) {
-		for(Square s : tilesToMove)
-			moveSquare(s, move);
-
+		while(!tilesToMove.isEmpty())
+			moveSquare(tilesToMove.pop(), move);
 	}
 
 	public void moveSquare(Square square, char move) {
