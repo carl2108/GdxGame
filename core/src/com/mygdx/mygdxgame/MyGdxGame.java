@@ -75,7 +75,7 @@ public class MyGdxGame extends ApplicationAdapter implements InputProcessor {
 
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-		Log("touchDown   x: " + screenX + " y: " + screenY + " pointer: " + pointer);
+		//Log("touchDown   x: " + screenX + " y: " + screenY + " pointer: " + pointer);
 		if(pointer > 0)
 			return true;
 
@@ -83,14 +83,14 @@ public class MyGdxGame extends ApplicationAdapter implements InputProcessor {
 		touchDownX = screenX;
 		touchDownY = screenY;
 		activeSquare = board.getSquareAt(screenX, screenY);
-		Log("activeSquare: " + activeSquare.getTile().getNumber());
+		//Log("activeSquare: " + activeSquare.getTile().getNumber());
 
 		return false;
 	}
 
 	@Override
 	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-		Log("touchUp   x: " + screenX + " y: " + screenY + " pointer: " + pointer);
+		//Log("touchUp   x: " + screenX + " y: " + screenY + " pointer: " + pointer);
 		if(pointer > 0)
 			return true;
 
@@ -231,6 +231,8 @@ public class MyGdxGame extends ApplicationAdapter implements InputProcessor {
 		board.getBoard()[activeSquare.getX()][activeSquare.getY()].setTile(anchorTile);
 		Gdx.graphics.requestRendering();
 
+		Log("game over: " + checkGameWin());
+
 		board.computeLegalMoves();
 	}
 
@@ -260,8 +262,15 @@ public class MyGdxGame extends ApplicationAdapter implements InputProcessor {
 	}
 
 	public boolean checkGameWin() {
-
-		 return false;
+		for(int j=0; j<4; j++) {
+			for (int i=0; i<4; i++) {
+				int num = j*4 + i +1;
+				if(board.getBoard()[i][j].getTile().getNumber() != num) {
+					return false;
+				}
+			}
+		}
+		return true;
 	}
 
 
